@@ -1,34 +1,56 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let products = []
-    getProducts();
+const getProducts = async () => {
+    const response = await fetch("products.json")
+    return response.json();
+}
 
-    async function getProducts() {
-        const response = await fetch("products.json")
-        products = await response.json();
-        showProducts(products);
-    }
+const filterProducts = (products, actuallFilterValue) => {
+    return Object.values(products).reduce((acc, item) => {
+        if (item.prod_status.includes(actuallFilterValue)) {
+            acc.push(item);
+        }
 
+        return acc;
+    }, [])
+}
+
+const getDiscount = (oldPrice, price) => {
+    return Math.round((oldPrice - price) * 100 / oldPrice);
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
     const select = document.querySelector(".select-category");
-    select.addEventListener("change", filterProducts)
-
     const container = document.querySelector(".products-container");
     const filter = document.querySelector(".sort");
+
+    let products = await getProducts();
+
+    select.addEventListener("change", () => {
+        if (select.value === "all") {
+            showProducts(products)
+        } else {
+            console.log(products);
+            showProducts(filterProducts(products, select.value));
+        }
+    });
+
     filter.addEventListener("click", () => {
         container.classList.toggle("sorted")
     })
 
     function showProducts(products) {
         container.innerHTML = ""
+
         Object.values(products).map(el => {
             const status = el.prod_status.split(",");
             let div = document.createElement("div")
             div.classList.add("wrap");
-            console.log(el);
+            const discount = getDiscount(el.prod_oldprice, el.prod_price);
+
             div.innerHTML = `
                     <div class="product-card" title="Kliknij">
                         <div class="card-img">
                             <img src="img/model.png" alt="">
-                            ${el.prod_oldprice ? ` <div class="card-promotion">-${Math.round((el.prod_oldprice-el.prod_price)*100/el.prod_oldprice)}%</div>` : ''}
+                            ${el.prod_oldprice ? ` <div class="card-promotion">-${discount}%</div>` : ''}
                             <ul>
                                 ${status.map(x => x ? `<li>${x}</li>` : "").join('')}
                             </ul>
@@ -69,19 +91,5 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     }
 
-    function filterProducts() {
-        const actuallFilterValue = select.value;
-        let arr = []
-        Object.values(products).filter(product => {
-            if (product.prod_status.includes(actuallFilterValue)) {
-                arr.push(product);
-                showProducts(arr)
-                console.log(product);
-            }
-            if (actuallFilterValue === "all") {
-                showProducts(products)
-            }
-        })
-    }
-
+    showProducts(products);
 })

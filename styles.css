@@ -228,6 +228,11 @@ body {
     color: white;
     text-align: center;
     border-radius: 5px;
+
+}
+
+.product-card ul li::first-letter {
+    text-transform: uppercase;
 }
 
 .product-card ul li:hover {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>AJAX</title>
+</head>
+
+<body>
+    <div class="title">
+        <h1>Produkty</h1>
+    </div>
+    <div class="select-container">
+        <select class="select-category" name="categories" id="categories">
+            <option disabled>Filtruj jako</option>
+            <option value="all">Wszystko</option>
+            <option value="recommended">Polecamy</option>
+            <option value="bestseller">Bestseler</option>
+            <option value="new">Nowe</option>
+            <option value="saleout">Wyprzedaż</option>
+            <option value="promotion">Promocja</option>
+        </select>
+        <img title="Filtruj" class="sort" src="img/sort.png" />
+    </div>
+    <div class="products-container"></div>
+
+
+    <script type="text/javascript" src="index.js"></script>
+</body>
+
+</html>

@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             container.appendChild(div);
 
             div.addEventListener("click", () => {
-                div.classList.toggle("active");
+                container.classList.contains("sorted") ? div.removeEventListener("click", () => {}) : div.classList.toggle("active");
             });
         })
     }

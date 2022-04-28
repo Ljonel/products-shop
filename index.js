@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (select.value === "all") {
             showProducts(products)
         } else {
-            console.log(products);
             showProducts(filterProducts(products, select.value));
         }
     });
